@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Twoboysoneshop_Configr>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Admin/>
+                <Mage_Core/>
+            </depends>
+        </Twoboysoneshop_Configr>
+    </modules>
+</config>

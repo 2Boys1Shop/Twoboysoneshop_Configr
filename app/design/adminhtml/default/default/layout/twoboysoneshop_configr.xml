@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <configr_overview_index>
+        <reference name="content">
+            <block type="adminhtml/template" name="configr.overview.index" template="twoboysoneshop_configr/overview/index.phtml"></block>
+        </reference>
+    </configr_overview_index>
+
+    <configr_history_index>
+        <reference name="content">
+            <block type="adminhtml/template" name="configr.history.index" template="twoboysoneshop_configr/history/index.phtml"></block>
+        </reference>
+    </configr_history_index>
+</layout>

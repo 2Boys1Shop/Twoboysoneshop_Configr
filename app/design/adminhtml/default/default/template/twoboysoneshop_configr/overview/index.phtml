@@ -1,0 +1,209 @@
+<?php $_websites = $this->getWebsites(); ?>
+<?php $_stores   = $this->getStores(); ?>
+<div class="content-header">
+    <h3><?php echo Mage::helper('configr')->__('Store Configuration Overview') ?></h3>
+</div>
+
+<style type="text/css">
+th small {
+    color:                  #CCCCCC;
+    font-weight:            normal;
+}
+
+th small:hover {
+    color:                  #000000;
+    font-weight:            normal;
+}
+</style>
+
+<div>
+    <strong><?php echo $this->helper('configr')->__('Choose the Store Views you want to compare') ?></strong>
+    <form action="" method="POST">
+        <div class="grid">
+            <table style="width:400px;">
+                <tr class="headings">
+                    <th><?php echo $this->helper('core')->__('Website') ?></th>
+                    <th><?php echo $this->helper('core')->__('Store View') ?></th>
+                </tr>
+            <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
+                <?php if ($websiteId == 0) continue; ?>
+                <tr>
+                    <td class=""><?php echo $website['name'] ?></td>
+                    <td class="">
+                        <?php foreach ($website['stores'] as $storeId => $store): ?>
+                            <?php if ($storeId == 0) continue; ?>
+                            <input class="store-select" id="input-store-<?php echo $storeId ?>" rel="<?php echo $storeId ?>" type="checkbox" checked="checked">
+                            <label for="input-store-<?php echo $storeId ?>"> <?php echo $store['name'] ?></label>
+                            <br/>
+                        <?php endforeach; ?>
+                    </td>
+            <?php endforeach; ?>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <button id="applyFilter" class="scalable"><?php echo $this->helper('configr')->__('Compare selected Store Views') ?></button>
+    <a href="#" id="select-all"><?php echo $this->helper('adminhtml')->__('Select All') ?></a> /
+    <a href="#" id="select-none"><?php echo $this->helper('adminhtml')->__('Unselect All') ?></a>
+
+    <br />
+    <label for="typeahead"><?php echo $this->helper('configr')->__('Search for Configkey:') ?></label> <input type="text" id="typeadhead" />
+
+</div>
+
+<br/>
+
+<div class="configr-wrapper grid" style="background-color:#fff;">
+<?php
+    $traDefault   = $this->helper('base')->__('Default');
+    $traWebsite   = $this->helper('base')->__('Website');
+    $traStoreView = $this->helper('base')->__('Store View');
+?>
+<?php $counter = 0; ?>
+<?php foreach ($this->getTabs() as $tabId => $tab): ?>
+    <h1 rel="<?php echo $tabId ?>" style="background-color: #666666; cursor: pointer; padding:5px;"><?php echo $this->__($tab['label']) ?></h1>
+    <div class="div-tab" id="div-tab-<?php echo $tabId; ?>" style="background-color:#ffffff; margin-bottom: 15px; margin-left: 15px;">
+    <?php foreach ($tab['sections'] as $sectionKey => $section): ?>
+        <h2 rel="<?php echo $sectionKey ?>"  style="background-color: #CCCCCC;  padding:5px; cursor: pointer;"><?php echo $this->__($section['label']) ?></h2>
+        <table class="table-section" id="table-section-<?php echo $sectionKey; ?>" style="display: none; background-color:#fff; border-style: solid solid none; border-width: 1px 1px medium;  margin-left: 15px;">
+            <?php foreach ($section['groups'] as $groupKey => $group): ?>
+                <tr>
+                    <td colspan="<?php echo count($_stores)+1 ?>"><h3><?php echo $this->__($group['label']) ?></h3></td>
+                </tr>
+                <tr class="headings">
+                    <th></th>
+                <?php foreach ($this->getStores() as $storeId => $store): ?>
+                    <th class="store store-<?php echo $storeId ?>"><?php echo $store['name'] ?></th>
+                <?php endforeach; ?>
+                </tr>
+                <?php foreach ($group['fields'] as $fieldKey => $field): ?>
+                    <tr
+                        class="<?php echo $counter %2 ? 'odd':'even' ?>"
+                        data-field="<?php echo $field['config_key']; ?>"
+                    >
+                        <th style="width:300px;" title="<?php echo $field['config_key'] ?>">
+                            <?php echo $this->__($field['label']); ?><br />
+                            <small><?php echo $field['config_key'] ?></small>
+                        </th>
+                    <?php foreach ($this->getStores() as $storeId => $store): ?>
+                        <?php if (isset($field['stores']) && array_key_exists($storeId, $field['stores'])): ?>
+                            <?php $_defaultValue = $field['stores'][0] ?>
+                            <?php $_websiteValue = $field['websites'][$store['website_id']] ?>
+                            <?php $_storeValue   = $field['stores'][$storeId] ?>
+                            <?php $_websiteSameAsDefault = ($_websiteValue == $_defaultValue) ?>
+                            <?php $_storeSameAsDefault   = ($_storeValue == $_defaultValue) ?>
+                            <?php $_storeSameAsWebsite   = ($_storeValue == $_websiteValue) ?>
+                            <?php
+                                  if ($storeId == 0 || ($_storeSameAsDefault && $_storeSameAsWebsite)) {
+                                      $_color = 'limegreen';
+                                  } elseif ($_storeSameAsWebsite) {
+                                      $_color = 'orange';
+                                  } else {
+                                      $_color = 'orangered';
+                                  }
+                            ?>
+                            <td
+                                data-store-id="<?php echo $storeId; ?>"
+                                class="store store-<?php echo $storeId ?>"
+                                style="overflow:hidden;background-color:<?php echo $_color; ?>;"
+                                title="<?php echo $traDefault . ': ' . $_defaultValue . PHP_EOL . PHP_EOL . $traWebsite . ': ' . $_websiteValue . PHP_EOL . PHP_EOL . $traStoreView . ': ' . $_storeValue; ?>"
+                            >
+                                <?php echo wordwrap($field['stores'][$storeId], 50, '<br />', true) ?>
+                            </td>
+                        <?php else: ?>
+                            <td style="background-color:#999999;"></td>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                            <th style="width:300px;" title="<?php echo $field['config_key'] ?>"><?php echo $this->__($field['label']); ?></th>
+                    <?php $counter++; ?>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </table>
+    <?php endforeach; ?>
+    </div>
+<?php endforeach; ?>
+</div>
+
+
+
+<script type="text/javascript">
+    $$('tr[data-field]').each(function(item) {
+       var key = item.readAttribute('data-field');
+       item.observe('click', function(event) {
+          var storeId = event.originalTarget.readAttribute('data-store-id');
+
+          console.log(key, storeId);
+
+            new Ajax.Request('/configr/config/edit', {
+                parameters: {
+                    'configKey': key,
+                    'storeId': storeId
+                },
+                evalJS: true,
+                onSuccess: function(transport) {
+                    console.log(transport.responseText);
+                }
+            });
+       });
+    });
+
+    $('applyFilter').observe('click', function() {
+        $$('.store-select').each(function(item) {
+            var store = item.readAttribute('rel');
+            if ($F(item) !== null) {
+                $$('.store.store-' + store).invoke('show');
+            } else {
+                $$('.store.store-' + store).invoke('hide');
+            }
+        });
+    });
+
+    $('select-all').observe('click', function() {
+        $$('.store-select').each(function(item) {
+            item.checked = 1;
+        });
+    });
+
+    $('select-none').observe('click', function() {
+        $$('.store-select').each(function(item) {
+            item.checked = 0;
+        });
+    });
+
+    $$('.configr-wrapper > h1').each(function(item) {
+        item.observe('click', function() {
+
+            var tabId = item.readAttribute('rel');
+
+            $('div-tab-' + tabId).toggle();
+        });
+    });
+
+    $$('.configr-wrapper h2').each(function(item) {
+        item.observe('click', function() {
+
+            var sectionId = item.readAttribute('rel');
+
+            $('table-section-' + sectionId).toggle();
+        });
+    });
+
+    $('typeadhead').observe('keyup', function(event) {
+        $$('tr[data-field]').invoke('hide');
+        $$('div.div-tab').invoke('hide');
+        $$('table.table-section').invoke('hide');
+
+        var searchValue = $F('typeadhead');
+
+        var foundFields = $$('tr[data-field*=' + searchValue + ']');
+
+        foundFields.invoke('show');
+        foundFields.each(function(item) {
+            item.up(1).show();
+            item.up(2).show();
+        });
+
+    });
+
+</script>

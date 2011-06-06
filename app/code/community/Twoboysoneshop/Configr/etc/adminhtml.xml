@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <system translate="title" module="adminhtml">
+            <children>
+                <config translate="title">
+                    <children>
+                        <overview>
+                            <title>Overview</title>
+                            <action>configr/overview/index</action>
+                            <sort_order>10</sort_order>
+                        </overview>
+                        <history>
+                            <title>History</title>
+                            <action>configr/history/index</action>
+                            <sort_order>20</sort_order>
+                        </history>
+                    </children>
+                </config>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin translate="title" module="adminhtml">
+                <children>
+                    <system translate="title">
+                        <children>
+                            <config translate="title">
+                                <children>
+                                    <overview translate="title">
+                                        <title>Overview</title>
+                                        <sort_order>10</sort_order>
+                                    </overview>
+                                    <history translate="title">
+                                        <title>History</title>
+                                        <sort_order>20</sort_order>
+                                    </history>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

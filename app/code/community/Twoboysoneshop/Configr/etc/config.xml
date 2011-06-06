@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Twoboysoneshop_Configr>
+            <version>0.2.1</version>
+        </Twoboysoneshop_Configr>
+    </modules>
+
+    <global>
+
+        <blocks>
+            <configr>
+                <class>Twoboysoneshop_Configr_Block</class>
+            </configr>
+        </blocks>
+
+        <helpers>
+            <configr>
+                <class>Twoboysoneshop_Configr_Helper</class>
+            </configr>
+        </helpers>
+
+    </global>
+
+
+    <admin>
+        <routers>
+            <configr>
+                <use>admin</use>
+                <args>
+                    <module>Twoboysoneshop_Configr</module>
+                    <frontName>configr</frontName>
+                </args>
+            </configr>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <configr>
+                    <file>twoboysoneshop_configr.xml</file>
+                </configr>
+            </updates>
+        </layout>
+
+        <translate>
+            <modules>
+                <configr>
+                    <files>
+                        <default>Twoboysoneshop_Configr.csv</default>
+                    </files>
+                </configr>
+            </modules>
+        </translate>
+    </adminhtml>
+
+
+</config>
