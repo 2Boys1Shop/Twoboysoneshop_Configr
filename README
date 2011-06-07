@@ -1,1 +1,22 @@
 Twoboysoneshop Configr
+----------------------
+
+This module was our project of the Hackathon at the Magento Developers Paradise 2011.
+
+The idea was to create an overview of all configuration values of all stores on one page
+to be able to compare how the different stores are configured.
+
+
+Features
+--------
+ - all values of all stores
+ - select stores you want to compare
+ - recognize value overrides by color
+ - search for config keys
+
+
+Installation
+------------
+
+Just move the content of the app directory to your magento installation.
+
