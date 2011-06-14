@@ -1,0 +1,30 @@
+th small {
+    color:                  #CCCCCC;
+    font-weight:            normal;
+}
+
+th small:hover {
+    color:                  #000000;
+    font-weight:            normal;
+}
+
+td.store div {
+    position:               relative;
+}
+
+td.store span {
+    display:                none;
+}
+
+td.store:hover span {
+    overflow:               auto;
+    z-index:                100;
+    padding:                5px;
+    border:                 1px dashed #000;
+    display:                block;
+    position:               absolute;
+    top:                    0px;
+    right:                  -312px;    
+    background-color:       #CCCCCC;
+    width:                  300px;
+}
