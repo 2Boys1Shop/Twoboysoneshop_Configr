@@ -79,10 +79,10 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         $this->loadLayout();
         $this->getLayout()->getBlock('configr.overview.index')
                           ->addData(array(
-                              'tabs'              => $tabs,
-                              'stores'            => $stores,
-                              'websites'          => $websites,
-                          ));
+                                     'tabs'     => $tabs,
+                                     'stores'   => $stores,
+                                     'websites' => $websites,
+                                    ));
         $this->renderLayout();
     }
 
