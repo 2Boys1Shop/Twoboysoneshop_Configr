@@ -7,6 +7,6 @@ CREATE TABLE IF NOT EXISTS `configr_history` (
   `value` text NOT NULL,
   `user_id` int(10) unsigned NOT NULL,
   `user_name` varchar(255),
-  `date_created` DATETIME,
+  `created_at` DATETIME,
   PRIMARY KEY (`history_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8
