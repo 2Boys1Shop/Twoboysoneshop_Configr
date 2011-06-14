@@ -29,13 +29,17 @@
                             <config translate="title">
                                 <children>
                                     <overview translate="title">
-                                        <title>Overview</title>
-                                        <sort_order>10</sort_order>
+                                        <title>Configr Overview</title>
+                                        <sort_order>990</sort_order>
                                     </overview>
                                     <history translate="title">
-                                        <title>History</title>
-                                        <sort_order>20</sort_order>
+                                        <title>Configr History</title>
+                                        <sort_order>991</sort_order>
                                     </history>
+                                    <configr translate="title">
+                                        <title>Configr Section</title>
+                                        <sort_order>992</sort_order>
+                                    </configr>
                                 </children>
                             </config>
                         </children>

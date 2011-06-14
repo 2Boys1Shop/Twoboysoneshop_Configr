@@ -1,5 +1,8 @@
 <?php $_websites = $this->getWebsites(); ?>
 <?php $_stores   = $this->getStores(); ?>
+<?php $_colorDefault = Mage::getStoreConfig('configr/colors/default'); ?>
+<?php $_colorWebsite = Mage::getStoreConfig('configr/colors/website'); ?>
+<?php $_colorStore   = Mage::getStoreConfig('configr/colors/store'); ?>
 <div class="content-header">
     <h3><?php echo Mage::helper('configr')->__('Store Configuration Overview') ?></h3>
 </div>
@@ -115,11 +118,11 @@ td.store:hover span {
                             <?php $_storeSameAsWebsite   = ($_storeValue == $_websiteValue) ?>
                             <?php
                                   if ($storeId == 0 || ($_storeSameAsDefault && $_storeSameAsWebsite)) {
-                                      $_color = 'limegreen';
+                                      $_color = $_colorDefault;
                                   } elseif ($_storeSameAsWebsite) {
-                                      $_color = 'orange';
+                                      $_color = $_colorWebsite;
                                   } else {
-                                      $_color = 'orangered';
+                                      $_color = $_colorStore;
                                   }
                             ?>
                             <td
