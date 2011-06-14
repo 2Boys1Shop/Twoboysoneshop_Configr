@@ -1,8 +1,23 @@
 <?php
 class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controller_Action
 {
+    protected function _initAction()
+    {
+        $this->loadLayout()
+            ->_setActiveMenu('system/acl')
+            ->_addBreadcrumb($this->__('System'), $this->__('System'))
+            ->_addBreadcrumb($this->__('Configuration'), $this->__('Configuration'))
+            ->_addBreadcrumb($this->__('Overview'), $this->__('Overview'))
+        ;
+        return $this;
+    }
+
     public function indexAction()
     {
+        $this->_title($this->__('System'))
+             ->_title($this->__('Configuration'))
+             ->_title($this->__('Overview'));
+    
         $configFields = Mage::getSingleton('adminhtml/config');
         $sections     = $configFields->getSections()->asArray();
         $tabs         = $configFields->getTabs()->asArray();
@@ -76,7 +91,7 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
             }
         }
 
-        $this->loadLayout();
+        $this->_initAction();
         $this->getLayout()->getBlock('configr.overview.index')
                           ->addData(array(
                                      'tabs'     => $tabs,

@@ -8,7 +8,7 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
         $this->loadLayout()
             ->_setActiveMenu('system/acl')
             ->_addBreadcrumb($this->__('System'), $this->__('System'))
-            ->_addBreadcrumb($this->__('Confguration'), $this->__('Configuration'))
+            ->_addBreadcrumb($this->__('Configuration'), $this->__('Configuration'))
             ->_addBreadcrumb($this->__('History'), $this->__('History'))
         ;
         return $this;
@@ -17,7 +17,7 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
     public function indexAction()
     {
         $this->_title($this->__('System'))
-             ->_title($this->__('Confguration'))
+             ->_title($this->__('Configuration'))
              ->_title($this->__('History'));
 
         $this->_initAction()

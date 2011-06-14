@@ -36,7 +36,7 @@ class Twoboysoneshop_Configr_Block_History_Grid extends Mage_Adminhtml_Block_Wid
         ));
 
         $this->addColumn('scope_id', array(
-            'header'    => Mage::helper('adminhtml')->__('Scope ID'),
+            'header'    => Mage::helper('configr')->__('Scope ID'),
             'index'     => 'scope_id',
             'width'     => '50px',
         ));
@@ -44,6 +44,16 @@ class Twoboysoneshop_Configr_Block_History_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('path', array(
             'header'    => Mage::helper('adminhtml')->__('Path'),
             'index'     => 'path',
+        ));
+
+        $this->addColumn('old_value', array(
+            'header'    => Mage::helper('configr')->__('Old Value'),
+            'index'     => 'old_value',
+        ));
+
+        $this->addColumn('value', array(
+            'header'    => Mage::helper('configr')->__('New Value'),
+            'index'     => 'value',
         ));
 
         $this->addColumn('user_name', array(
