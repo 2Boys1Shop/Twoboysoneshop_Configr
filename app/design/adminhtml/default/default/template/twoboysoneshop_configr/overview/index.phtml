@@ -78,9 +78,9 @@ td.store:hover span {
 
 <div class="configr-wrapper grid" style="background-color:#fff;">
 <?php
-    $traDefault   = $this->helper('base')->__('Default');
-    $traWebsite   = $this->helper('base')->__('Website');
-    $traStoreView = $this->helper('base')->__('Store View');
+    $traDefault   = $this->helper('core')->__('Default');
+    $traWebsite   = $this->helper('core')->__('Website');
+    $traStoreView = $this->helper('core')->__('Store View');
 ?>
 <?php $counter = 0; ?>
 <?php foreach ($this->getTabs() as $tabId => $tab): ?>
