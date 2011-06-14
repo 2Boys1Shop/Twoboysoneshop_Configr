@@ -29,9 +29,14 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         uasort($tabs, array($this, '_sortByOrder'));
         ksort($stores);
 
+        $checkAcl = Mage::getStoreConfigFlag('configr/acl/enabled');
+        
         // Add sections to corresponding tabs
         foreach ($sections as $sectionKey => $section) {
-            $tabs[$section['tab']]['sections'][$sectionKey] = $section;
+            // Show only allowed sections if acl check is enabled
+            if (!$checkAcl || Mage::getSingleton('admin/session')->isAllowed('system/config/' . $sectionKey)) {
+                $tabs[$section['tab']]['sections'][$sectionKey] = $section;
+            }
         }
 
         // Convert websites to arrays
@@ -47,6 +52,10 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         $stores[0]['name'] = 'default';
 
         foreach ($tabs as &$tab) {
+            if (empty($tab['sections'])) {
+                continue;
+            }
+            
             foreach ($tab['sections'] as $sectionKey => &$section) {
 
                 if (empty($section['groups'])) {
