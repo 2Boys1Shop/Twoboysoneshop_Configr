@@ -14,6 +14,26 @@ th small:hover {
     color:                  #000000;
     font-weight:            normal;
 }
+
+td.store div {
+    position:               relative;
+}
+
+td.store span {
+    display:                none;
+}
+
+td.store:hover span {
+    z-index:                100;
+    padding:                5px;
+    border:                 1px dashed #000;
+    display:                block;
+    position:               absolute;
+    top:                    0px;
+    right:                  -312px;    
+    background-color:       #CCCCCC;
+    width:                  300px;
+}
 </style>
 
 <div>
@@ -105,10 +125,16 @@ th small:hover {
                             <td
                                 data-store-id="<?php echo $storeId; ?>"
                                 class="store store-<?php echo $storeId ?>"
-                                style="overflow:hidden;background-color:<?php echo $_color; ?>;"
-                                title="<?php echo $traDefault . ': ' . $_defaultValue . PHP_EOL . PHP_EOL . $traWebsite . ': ' . $_websiteValue . PHP_EOL . PHP_EOL . $traStoreView . ': ' . $_storeValue; ?>"
+                                style="background-color:<?php echo $_color; ?>;"
                             >
+                                <div>
                                 <?php echo wordwrap($field['stores'][$storeId], 50, '<br />', true) ?>
+                                    <span>
+                                        <p><strong><?php echo $traDefault   ?>:</strong><br/><?php echo $_defaultValue; ?>
+                                        <p><strong><?php echo $traWebsite   ?>:</strong><br/><?php echo $_websiteValue  ?> 
+                                        <p><strong><?php echo $traStoreView ?>:</strong><br/><?php echo $_storeValue;   ?>                                    
+                                    </span>
+                                </div>
                             </td>
                         <?php else: ?>
                             <td style="background-color:#999999;"></td>
