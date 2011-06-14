@@ -10,14 +10,14 @@ class Twoboysoneshop_Configr_Model_Observer
                 
                 $history = Mage::getModel('configr/history');
                 $history->setData(array(
-                    'scope' => $model->getScope(),
-                    'scope_id' => $model->getScopeId(),
-                    'path' => $model->getPath(),
-                    'old_value' => $model->getOldValue(),
-                    'value' => $model->getValue(),
-                    'user_id' => Mage::getSingleton('admin/session')->getUser()->getId(),
-                    'user_name' => Mage::getSingleton('admin/session')->getUser()->getUsername(),
-                    'date_created' => Mage::getModel('core/date')->gmtDate(),
+                    'scope'      => $model->getScope(),
+                    'scope_id'   => $model->getScopeId(),
+                    'path'       => $model->getPath(),
+                    'old_value'  => $model->getOldValue(),
+                    'value'      => $model->getValue(),
+                    'user_id'    => Mage::getSingleton('admin/session')->getUser()->getId(),
+                    'user_name'  => Mage::getSingleton('admin/session')->getUser()->getUsername(),
+                    'created_at' => Mage::getModel('core/date')->gmtDate(),
                 ))->save();
             }
         }
