@@ -2,11 +2,32 @@
 <config>
     <modules>
         <Twoboysoneshop_Configr>
-            <version>0.2.1</version>
+            <version>0.2.2</version>
         </Twoboysoneshop_Configr>
     </modules>
 
     <global>
+
+        <models>
+            <configr>
+                <class>Twoboysoneshop_Configr_Model</class>
+                <resourceModel>configr_mysql4</resourceModel>
+            </configr>
+            <configr_mysql4>
+                <class>Twoboysoneshop_Configr_Model_Mysql4</class>
+                <entities>
+                    <history><table>configr_history</table></history>
+                </entities>
+            </configr_mysql4>
+        </models>
+        <resources>
+            <configr_setup>
+                <setup>
+                    <module>Twoboysoneshop_Configr</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+            </configr_setup>
+        </resources>
 
         <blocks>
             <configr>
@@ -53,6 +74,17 @@
                 </configr>
             </modules>
         </translate>
+        
+        <events>
+            <model_save_commit_after>
+                <observers>
+                    <logConfigDataChange>
+                        <class>configr/observer</class>
+                        <method>logConfigDataChange</method>
+                    </logConfigDataChange>
+                </observers>
+            </model_save_commit_after>
+        </events>
     </adminhtml>
 
     <default>
