@@ -55,5 +55,13 @@
         </translate>
     </adminhtml>
 
-
+    <default>
+        <configr>
+            <colors>
+                <default>white</default>
+                <website>orange</website>
+                <store>orangered</store>
+            </colors>
+        </configr>
+    </default>
 </config>
