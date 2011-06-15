@@ -1,0 +1,74 @@
+<form id="history_form" action="<?php echo $this->getUrl('configr/history/restore') ?>" method="post">
+    <div id="page_tabs_main_section_content" style="">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('History Details') ?></h4>
+                <div class="form-buttons"></div>
+            </div>
+            <div class="fieldset" id="history_base_fieldset">
+                <div class="hor-scroll">
+                    <table cellspacing="0" class="form-list">
+                        <tbody>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('adminhtml')->__('User Name') ?></label></td>
+                                <td class="value">
+                                    <?php echo $_history->getUserName() ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('adminhtml')->__('Updated At') ?></label></td>
+                                <td class="value">
+                                    <?php echo $this->helper('core')->formatDate($_history->getCreatedAt(), 'medium', true) ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Scope') ?></label></td>
+                                <td class="value">
+                                    <?php echo $_history->getScope() ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->__('Scope ID') ?></label></td>
+                                <td class="value">
+                                    <?php if ($_history->getScope() == 'stores'): ?>
+                                        <?php $_stores = Mage::app()->getStores(); ?>
+                                        <?php echo $_stores[$_history->getScopeId()]->getName() ?>
+                                    <?php elseif ($_history->getScope() == 'websites'): ?>
+                                        <?php $_websites = Mage::app()->getWebsites(); ?>
+                                        <?php echo $_websites[$_history->getScopeId()]->getName() ?>
+                                    <?php else: ?>
+                                        <?php echo $this->__('Default') ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('adminhtml')->__('Path') ?></label></td>
+                                <td class="value">
+                                    <strong><?php echo $_history->getPath() ?></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('configr')->__('Old Value') ?></label></td>
+                                <td class="value">
+                                    <strong><?php echo $_history->getOldValue() ?></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('configr')->__('New Value') ?></label></td>
+                                <td class="value">
+                                    <strong><?php echo $_history->getValue() ?></strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input name="history_id" value="<?php echo $_history->getId() ?>" type="hidden" />
+    <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>" />
+</form>
+
+<script type="text/javascript"> 
+    historyForm = new varienForm('history_form', '');
+</script> 

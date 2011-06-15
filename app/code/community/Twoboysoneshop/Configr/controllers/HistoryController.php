@@ -34,142 +34,76 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
     {
         $this->_title($this->__('System'))
              ->_title($this->__('Permissions'))
-             ->_title($this->__('Users'));
+             ->_title($this->__('History'));
 
-        $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('admin/user');
+        $id = (int)$this->getRequest()->getParam('history_id');
+        $history = Mage::getModel('configr/history');
 
         if ($id) {
-            $model->load($id);
-            if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists.'));
+            $history->load($id);
+            if (! $history->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError($this->__('This config history entry no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : $this->__('New User'));
+        $this->_title($history->getId() ? $history->getName() : $this->__('ID #') . $id);
 
-        // Restore previously entered form data from session
-        $data = Mage::getSingleton('adminhtml/session')->getUserData(true);
-        if (!empty($data)) {
-            $model->setData($data);
-        }
-
-        Mage::register('permissions_user', $model);
+        Mage::register('history_entry', $history);
 
         $this->_initAction()
-            ->_addBreadcrumb($id ? $this->__('Edit User') : $this->__('New User'), $id ? $this->__('Edit User') : $this->__('New User'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/permissions_user_edit')->setData('action', $this->getUrl('*/permissions_user/save')))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tabs'));
+            ->_addBreadcrumb($this->__('View History'), $this->__('View History'))
+            ->_addContent($this->getLayout()->createBlock('configr/history_edit')->setData('action', $this->getUrl('*/history/save')))
+            ->_addLeft($this->getLayout()->createBlock('configr/history_edit_tabs'));
 
-        $this->_addJs($this->getLayout()->createBlock('adminhtml/template')->setTemplate('permissions/user_roles_grid_js.phtml'));
         $this->renderLayout();
     }
 
-    public function saveAction()
+    public function restoreAction()
     {
         if ($data = $this->getRequest()->getPost()) {
 
-            $id = $this->getRequest()->getParam('user_id');
-            $model = Mage::getModel('admin/user')->load($id);
-            if (!$model->getId() && $id) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('This user no longer exists.'));
+            $id = $this->getRequest()->getParam('history_id');
+            $oldHistory = Mage::getModel('configr/history')->load($id);
+            if (!$oldHistory->getId() || !$id) {
+                Mage::getSingleton('adminhtml/session')->addError($this->__('This config history entry no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
-            $model->setData($data);
-
-            /*
-             * Unsetting new password and password confirmation if they are blank
-             */
-            if ($model->hasNewPassword() && $model->getNewPassword() === '') {
-                $model->unsNewPassword();
-            }
-            if ($model->hasPasswordConfirmation() && $model->getPasswordConfirmation() === '') {
-                $model->unsPasswordConfirmation();
-            }
-
-            $result = $model->validate();
-            if (is_array($result)) {
-                Mage::getSingleton('adminhtml/session')->setUserData($data);
-                foreach ($result as $message) {
-                    Mage::getSingleton('adminhtml/session')->addError($message);
-                }
-                $this->_redirect('*/*/edit', array('_current' => true));
-                return $this;
-            }
 
             try {
-                $model->save();
-                if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
-                    /*parse_str($uRoles, $uRoles);
-                    $uRoles = array_keys($uRoles);*/
-                    if ( 1 == sizeof($uRoles) ) {
-                        $model->setRoleIds($uRoles)
-                            ->setRoleUserId($model->getUserId())
-                            ->saveRelations();
-                    } else if ( sizeof($uRoles) > 1 ) {
-                        //@FIXME: stupid fix of previous multi-roles logic.
-                        //@TODO:  make proper DB upgrade in the future revisions.
-                        $rs = array();
-                        $rs[0] = $uRoles[0];
-                        $model->setRoleIds( $rs )->setRoleUserId( $model->getUserId() )->saveRelations();
-                    }
-                }
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The user has been saved.'));
-                Mage::getSingleton('adminhtml/session')->setUserData(false);
-                $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
+                $setup = new Mage_Core_Model_Resource_Setup('core_write');
+                $setup->setConfigData(
+                    $oldHistory->getPath(),
+                    $oldHistory->getOldValue(),
+                    $oldHistory->getScope(),
+                    (int)$oldHistory->getScopeId()
+                );
+            
+                $newHistory = Mage::getModel('configr/history');
+                $newHistory->setData(array(
+                    'scope'      => $oldHistory->getScope(),
+                    'scope_id'   => $oldHistory->getScopeId(),
+                    'path'       => $oldHistory->getPath(),
+                    'old_value'  => $oldHistory->getValue(),
+                    'value'      => $oldHistory->getOldValue(),
+                    'user_id'    => Mage::getSingleton('admin/session')->getUser()->getId(),
+                    'user_name'  => Mage::getSingleton('admin/session')->getUser()->getUsername(),
+                    'created_at' => Mage::getModel('core/date')->gmtDate(),
+                    'restored_from_id' => $oldHistory->getId(),
+                ))->save();
+
+                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The config value has been restored.'));
+                $this->_redirect('*/*/edit', array('history_id' => $oldHistory->getId()));
                 return;
             } catch (Mage_Core_Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                Mage::getSingleton('adminhtml/session')->setUserData($data);
-                $this->_redirect('*/*/edit', array('user_id' => $model->getUserId()));
+                $this->_redirect('*/*/edit', array('history_id' => $oldHistory->getId()));
                 return;
             }
         }
         $this->_redirect('*/*/');
-    }
-
-    public function deleteAction()
-    {
-        $currentUser = Mage::getSingleton('admin/session')->getUser();
-
-        if ($id = $this->getRequest()->getParam('user_id')) {
-            if ( $currentUser->getId() == $id ) {
-                Mage::getSingleton('adminhtml/session')->addError($this->__('You cannot delete your own account.'));
-                $this->_redirect('*/*/edit', array('user_id' => $id));
-                return;
-            }
-            try {
-                $model = Mage::getModel('admin/user');
-                $model->setId($id);
-                $model->delete();
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('The user has been deleted.'));
-                $this->_redirect('*/*/');
-                return;
-            }
-            catch (Exception $e) {
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
-                return;
-            }
-        }
-        Mage::getSingleton('adminhtml/session')->addError($this->__('Unable to find a user to delete.'));
-        $this->_redirect('*/*/');
-    }
-
-    public function rolesGridAction()
-    {
-        $id = $this->getRequest()->getParam('user_id');
-        $model = Mage::getModel('admin/user');
-
-        if ($id) {
-            $model->load($id);
-        }
-
-        Mage::register('permissions_user', $model);
-        $this->getResponse()->setBody($this->getLayout()->createBlock('adminhtml/permissions_user_edit_tab_roles')->toHtml());
     }
 
     public function historyGridAction()
@@ -179,11 +113,6 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
             ->createBlock('configr/history_grid')
             ->toHtml()
         );
-    }
-
-    protected function _isAllowed()
-    {
-        return Mage::getSingleton('admin/session')->isAllowed('system/acl/users');
     }
 
 }

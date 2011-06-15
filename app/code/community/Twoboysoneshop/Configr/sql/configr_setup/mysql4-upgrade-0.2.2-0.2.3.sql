@@ -1,0 +1,1 @@
+ALTER TABLE  `configr_history` ADD  `restored_from_id` INT( 10 ) UNSIGNED NULL;
