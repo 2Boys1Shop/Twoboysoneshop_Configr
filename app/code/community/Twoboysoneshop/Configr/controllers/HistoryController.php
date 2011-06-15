@@ -20,6 +20,10 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
              ->_title($this->__('Configuration'))
              ->_title($this->__('History'));
 
+        if (!Mage::helper('configr')->isHistoryEnabled()) {
+            Mage::getSingleton('adminhtml/session')->addNotice($this->__('Tracking of config changes is currently disabled.'));
+        }
+        
         $this->_initAction()
             ->_addContent($this->getLayout()->createBlock('configr/history'))
             ->renderLayout();
@@ -62,6 +66,11 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
 
     public function restoreAction()
     {
+        if (!Mage::helper('configr')->isHistoryEnabled()) {
+            Mage::getSingleton('adminhtml/session')->addError($this->__('Tracking of config changes is currently disabled.'));
+            $this->_redirect('*/*/');
+        }
+        
         if ($data = $this->getRequest()->getPost()) {
 
             $id = $this->getRequest()->getParam('history_id');

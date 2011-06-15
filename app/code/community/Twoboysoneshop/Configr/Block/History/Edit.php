@@ -15,11 +15,13 @@ class Twoboysoneshop_Configr_Block_History_Edit extends Mage_Adminhtml_Block_Wid
         $this->_removeButton('delete');
         $this->_removeButton('reset');
         
-        $this->_addButton('restore', array(
-            'label'     => Mage::helper('configr')->__('Restore Old Value'),
-            'onclick'   => 'historyForm.submit();',
-            'class'     => 'save',
-        ), 1);
+        if (Mage::helper('configr')->isHistoryEnabled()) {
+            $this->_addButton('restore', array(
+                'label'     => Mage::helper('configr')->__('Restore Old Value'),
+                'onclick'   => 'historyForm.submit();',
+                'class'     => 'save',
+            ), 1);
+        }
     }
 
     public function getHeaderText()

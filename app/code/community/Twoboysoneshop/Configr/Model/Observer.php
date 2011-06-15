@@ -5,6 +5,10 @@ class Twoboysoneshop_Configr_Model_Observer
     {
         $model = $observer->getObject();
         if ($model instanceof Mage_Core_Model_Config_Data) {
+            if (!Mage::helper('configr')->isHistoryEnabled()) {
+                return $this;
+            }
+            
             if ($model->isValueChanged()) {
                 $oldValue = $model->getOldValue();
                 

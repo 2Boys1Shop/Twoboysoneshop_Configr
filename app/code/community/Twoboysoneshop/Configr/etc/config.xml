@@ -89,6 +89,9 @@
 
     <default>
         <configr>
+            <history>
+                <enabled>1</enabled>
+            </history>
             <colors>
                 <default>white</default>
                 <website>orange</website>

@@ -10,10 +10,30 @@
             <show_in_website>0</show_in_website>
             <show_in_store>0</show_in_store>
             <groups>
+                <history translate="label">
+                    <label>History</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment>No = upcoming config changes will not be tracked</comment>
+                        </enabled>
+                    </fields>
+                </history>
                 <colors translate="label">
                     <label>Colors</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
+                    <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -50,7 +70,7 @@
                 <acl translate="label">
                     <label>Access Control</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>2</sort_order>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
                     <show_in_store>0</show_in_store>
