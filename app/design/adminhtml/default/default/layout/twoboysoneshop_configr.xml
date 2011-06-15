@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
     <configr_overview_index>
+        <reference name="head">
+            <action method="addJs"><file>twoboysoneshop_configr/controller.js</file></action>
+            <action method="addCss"><name>twoboysoneshop_configr/style.css</name></action>
+        </reference>        
         <reference name="content">
             <block type="adminhtml/template" name="configr.overview.index" template="twoboysoneshop_configr/overview/index.phtml"></block>
         </reference>
