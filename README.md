@@ -20,7 +20,7 @@ to be able to compare how the different stores are configured.
 ### History
  - track config changes
  - show history of changed config values
- - PLANNED: revert config changes
+ - revert config changes
 
 
 ## Installation
