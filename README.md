@@ -20,7 +20,8 @@ to be able to compare how the different stores are configured.
 ### History
  - track config changes
  - show history of changed config values
- - revert config changes
+ - restore config changes
+ - generate migration script from selected changes
 
 
 ## Installation
