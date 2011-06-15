@@ -59,6 +59,16 @@
                                     <strong><?php echo $_history->getValue() ?></strong>
                                 </td>
                             </tr>
+                        <?php if ($_history->getRestoredFromId()): ?>
+                            <tr>
+                                <td class="label"><label><?php echo $this->helper('configr')->__('Restored') ?></label></td>
+                                <td class="value">
+                                    <a href="<?php echo $this->getUrl('configr/history/edit', array('history_id' => $_history->getRestoredFromId())) ?>">
+                                        <?php echo $this->helper('configr')->__('This change is a restore from #%s', $_history->getRestoredFromId()) ?>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>

@@ -44,22 +44,29 @@ class Twoboysoneshop_Configr_Block_History_Grid extends Mage_Adminhtml_Block_Wid
         $this->addColumn('path', array(
             'header'    => Mage::helper('adminhtml')->__('Path'),
             'index'     => 'path',
+            'sortable'  => false,
         ));
 
         $this->addColumn('old_value', array(
             'header'    => Mage::helper('configr')->__('Old Value'),
             'index'     => 'old_value',
+            'renderer'  => 'adminhtml/widget_grid_column_renderer_longtext',
+            'truncate'  => 50,
+            'sortable'  => false,
         ));
 
         $this->addColumn('value', array(
             'header'    => Mage::helper('configr')->__('New Value'),
             'index'     => 'value',
+            'renderer'  => 'adminhtml/widget_grid_column_renderer_longtext',
+            'truncate'  => 50,
+            'sortable'  => false,
         ));
 
         $this->addColumn('user_name', array(
             'header'    => Mage::helper('adminhtml')->__('User'),
             'index'     => 'user_name',
-            'width'     => '150px',
+            'width'     => '100px',
         ));
         
         $this->addColumn('created_at', array(
@@ -68,7 +75,13 @@ class Twoboysoneshop_Configr_Block_History_Grid extends Mage_Adminhtml_Block_Wid
             'type'      => 'datetime',
             'width'     => '100px',
         ));
-
+        
+        $this->addColumn('restored_from_id', array(
+            'header'    => Mage::helper('sales')->__('Restored #'),
+            'index'     => 'restored_from_id',
+            'width'     => '20px',
+        ));
+        
         return parent::_prepareColumns();
     }
 
