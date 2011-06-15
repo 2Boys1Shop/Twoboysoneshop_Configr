@@ -6,7 +6,7 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
     protected function _initAction()
     {
         $this->loadLayout()
-            ->_setActiveMenu('system/acl')
+            ->_setActiveMenu('system')
             ->_addBreadcrumb($this->__('System'), $this->__('System'))
             ->_addBreadcrumb($this->__('Configuration'), $this->__('Configuration'))
             ->_addBreadcrumb($this->__('History'), $this->__('History'))
@@ -115,6 +115,43 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
         $this->_redirect('*/*/');
     }
 
+    public function createMigrationAction() 
+    {
+        $historyIds = $this->getRequest()->getPost('history_ids', array());
+        sort($historyIds);
+        
+        
+        $scipt = array();
+        
+        $script[] = '$installer = $this;';
+        $script[] = '$installer->startSetup();';
+        $script[] = '';
+
+        $placeholder = '$installer->setConfigData(\'%s\', \'%s\', \'%s\', %s);';
+        foreach ($historyIds as $historyId) {
+            $history = Mage::getModel('configr/history')->load($historyId);
+            $script[] = '// Change #' . $history->getId() . ' (' . Mage::helper('core')->formatDate($history->getCreatedAt(), 'medium', true) . ')';
+            $script[] = vsprintf($placeholder, array(
+                $history->getPath(),
+                $history->getValue(),
+                $history->getScope(),
+                (int)$history->getScopeId()
+            ));
+            $script[] = '';
+        }
+        
+        $script[] = '';
+        $script[] = '$installer->endSetup();';
+        
+        $this->loadLayout()
+            ->_addContent(
+                $this->getLayout()->createBlock('adminhtml/template')
+                    ->setTemplate('twoboysoneshop_configr/history/migration.phtml')
+                    ->assign('_script', $script)
+            )
+            ->renderLayout();
+    }
+    
     public function historyGridAction()
     {
         $this->getResponse()

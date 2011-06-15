@@ -85,6 +85,21 @@ class Twoboysoneshop_Configr_Block_History_Grid extends Mage_Adminhtml_Block_Wid
         return parent::_prepareColumns();
     }
 
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('history_id');
+        $this->getMassactionBlock()->setFormFieldName('history_ids');
+        $this->getMassactionBlock()->setUseSelectAll(false);
+
+        $this->getMassactionBlock()->addItem('migrate', array(
+             'label'=> Mage::helper('configr')->__('Create Migration'),
+             'url'  => $this->getUrl('configr/history/createMigration'),
+        ));
+
+        return $this;
+    }
+    
     public function getRowUrl($row)
     {
         return $this->getUrl('configr/history/edit', array('history_id' => $row->getId()));

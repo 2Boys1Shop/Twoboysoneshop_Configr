@@ -1,0 +1,8 @@
+<div class="content-header">
+    <h3><?php echo Mage::helper('configr')->__('Create Migration') ?></h3>
+    <p class="form-buttons">
+        <button type="button" class="scalable back" onclick="setLocation('<?php echo $this->getUrl('configr/history/index') ?>')" style=""><span><?php echo Mage::helper('adminhtml')->__('Back') ?></span></button>
+    </p>
+</div>
+
+<textarea style="width:800px;height:400px;"><?php echo implode(PHP_EOL, $_script) ?></textarea>
