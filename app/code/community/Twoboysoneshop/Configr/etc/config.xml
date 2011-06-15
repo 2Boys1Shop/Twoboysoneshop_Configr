@@ -94,6 +94,9 @@
                 <website>orange</website>
                 <store>orangered</store>
             </colors>
+            <acl>
+                <enabled>0</enabled>
+            </acl>
         </configr>
     </default>
 </config>

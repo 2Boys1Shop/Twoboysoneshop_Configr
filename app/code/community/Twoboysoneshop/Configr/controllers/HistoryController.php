@@ -174,7 +174,6 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
 
     public function historyGridAction()
     {
-        Mage::log(__METHOD__);
         $this->getResponse()
             ->setBody($this->getLayout()
             ->createBlock('configr/history_grid')

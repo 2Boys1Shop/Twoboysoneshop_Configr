@@ -52,6 +52,7 @@
 ?>
 <?php $counter = 0; ?>
 <?php foreach ($this->getTabs() as $tabId => $tab): ?>
+    <?php if (empty($tab['sections'])) continue; ?>
     <h1 rel="<?php echo $tabId ?>" style="background-color: #666666; cursor: pointer; padding:5px;"><?php echo $this->__($tab['label']) ?></h1>
     <div class="div-tab" id="div-tab-<?php echo $tabId; ?>" style="background-color:#ffffff; margin-bottom: 15px; margin-left: 15px;">
     <?php foreach ($tab['sections'] as $sectionKey => $section): ?>
@@ -59,13 +60,14 @@
         <table class="table-section" id="table-section-<?php echo $sectionKey; ?>" style="display: none; background-color:#fff; border-style: solid solid none; border-width: 1px 1px medium;  margin-left: 15px;">
             <?php foreach ($section['groups'] as $groupKey => $group): ?>
                 <tr>
-                    <td colspan="<?php echo count($_stores)+1 ?>"><h3><?php echo $this->__($group['label']) ?></h3></td>
+                    <td colspan="<?php echo count($_stores)+2 ?>"><h3><?php echo $this->__($group['label']) ?></h3></td>
                 </tr>
                 <tr class="headings">
                     <th></th>
                 <?php foreach ($this->getStores() as $storeId => $store): ?>
                     <th class="store store-<?php echo $storeId ?>"><?php echo $store['name'] ?></th>
                 <?php endforeach; ?>
+                    <th></th>
                 </tr>
                 <?php foreach ($group['fields'] as $fieldKey => $field): ?>
                     <tr
@@ -111,7 +113,10 @@
                             <td style="background-color:#999999;"></td>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                            <th style="width:300px;" title="<?php echo $field['config_key'] ?>"><?php echo $this->__($field['label']); ?></th>
+                            <th style="width:300px;" title="<?php echo $field['config_key'] ?>">
+                                <?php echo $this->__($field['label']); ?><br />
+                                <small><?php echo $field['config_key'] ?></small>
+                            </th>
                     <?php $counter++; ?>
                     </tr>
                 <?php endforeach; ?>
