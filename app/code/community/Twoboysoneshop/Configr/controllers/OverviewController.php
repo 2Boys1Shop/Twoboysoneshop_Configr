@@ -112,11 +112,79 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
 
     public function editAction()
     {
-        $configKey = $this->getRequest()->getParam('configKey');
-        $storeId   = $this->getRequest()->getParam('storeId');
+        $configKey = $this->getRequest()->getPost('configKey');
+        $storeId   = $this->getRequest()->getPost('storeId');
+        
+        list($section, $group, $field) = explode('/', $configKey);
+        
+        $fieldSetId = $section . '_' . $group;
+        $elementId  = $section . '_' . $group . '_' . $field;
+        
+        
+        
+        $store   = Mage::app()->getStore($storeId);
+        $website = $store->getWebsite();
+        
+        $this->getRequest()->setParam('section', $section);
+        
+        $this->loadLayout();
+        $body = '';
+        
+        // Website Block
+        $this->getRequest()->setParam('website', $website->getCode());
+        
+        $editBlock = $this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm();
+        $form = $editBlock->getChild('form');
+        $form = $form->getForm();
+        $fieldsetCollection = $form->getElements();
+        foreach ($fieldsetCollection as $fieldset) {
+            if ($fieldset->getId() != $fieldSetId) {
+                $fieldsetCollection->remove($fieldset->getId());
+                continue;
+            }
+            $elementCollection = $fieldset->getElements();
+            foreach ($elementCollection as $element) {
+                if ($element->getId() != $elementId) {
+                    $elementCollection->remove($element->getId());
+                    continue;
+                }
+            }
+        }
+        
+        $body .= $editBlock->toHtml();
+        
+        
+        
+        // Store Block
+        $this->getRequest()->setParam('store', $store->getCode());
+        
+        $editBlock = $this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm();
+        $form = $editBlock->getChild('form');
+        $form = $form->getForm();
+        $fieldsetCollection = $form->getElements();
+        foreach ($fieldsetCollection as $fieldset) {
+            if ($fieldset->getId() != $fieldSetId) {
+                $fieldsetCollection->remove($fieldset->getId());
+                continue;
+            }
+            $elementCollection = $fieldset->getElements();
+            foreach ($elementCollection as $element) {
+                if ($element->getId() != $elementId) {
+                    $elementCollection->remove($element->getId());
+                    continue;
+                }
+            }
+        }
+        $body .= $editBlock->toHtml();
+        
+        $this->getResponse()->setBody($body);
     }
 
-
+    public function saveAction() 
+    {
+        die(print_r($this->getRequest()->getPost(), 1));
+        $this->_forward('save', 'system_config', 'admin');
+    }
 
     protected function _sortByOrder($a, $b)
     {
