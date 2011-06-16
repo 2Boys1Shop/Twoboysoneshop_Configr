@@ -97,7 +97,7 @@
                             ?>
                             <td
                                 data-store-id="<?php echo $storeId; ?>"
-                                class="store store-<?php echo $storeId ?>"
+                                class="store store-<?php echo $storeId ?> <?php if ($storeId == 0): ?>default<?php endif; ?>"
                                 style="background-color:<?php echo $_color; ?>;"
                             >
                                 <div>
@@ -125,4 +125,8 @@
     <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
+</div>
+
+<div id="config-detail" style="display:none;">
+    muuuuuuuuuuuuuuhhhh
 </div>

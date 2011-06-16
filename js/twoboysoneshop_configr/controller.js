@@ -1,25 +1,31 @@
 Event.observe(window, 'load', function() {
-    /*
+
     $$('tr[data-field]').each(function(item) {
-       var key = item.readAttribute('data-field');
-       item.observe('click', function(event) {
-          var storeId = event.originalTarget.readAttribute('data-store-id');
+        var key = item.readAttribute('data-field');
+        item.observe('click', function(event) {
+            var eot = event.originalTarget;
+            if (eot.tagName == 'DIV') {
+                eot = eot.up();
+            }
+            var storeId = eot.readAttribute('data-store-id');            
 
-          console.log(key, storeId);
-
-            new Ajax.Request('/configr/config/edit', {
-                parameters: {
-                    'configKey': key,
-                    'storeId': storeId
-                },
-                evalJS: true,
-                onSuccess: function(transport) {
-                    console.log(transport.responseText);
-                }
-            });
-       });
+            if (!eot.hasClassName('default')) {
+                new Ajax.Request('/configr/config/edit', {
+                    parameters: {
+                        'configKey': key,
+                        'storeId': storeId
+                    },
+                    evalJS: true,
+                    onSuccess: function(transport) {
+                        $('config-detail').update(transport.responseText).show();
+                    },
+                    onFailure: function(transport) {
+                        $('config-detail').update(transport.responseText).show();
+                    }                
+                });                
+            }
+        });
     });
-    */
 
     $('applyFilter').observe('click', function() {
         $$('.store-select').each(function(item) {

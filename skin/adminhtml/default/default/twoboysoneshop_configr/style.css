@@ -20,11 +20,25 @@ td.store:hover span {
     overflow:               auto;
     z-index:                100;
     padding:                5px;
-    border:                 1px dashed #000;
+    border:                 2px solid #f1af73;
+    /*padding:                15px 60px; */
+    background:             #fff4e9;
     display:                block;
     position:               absolute;
     top:                    0px;
     right:                  -312px;    
-    background-color:       #CCCCCC;
     width:                  300px;
+}
+
+#config-detail {
+    position:               absolute;
+    top:                    50%;
+    left:                   50%;
+    width:                  300px;
+    margin-left:            -150px;
+    padding:                10px;
+    border:                 2px solid #f1af73;
+    /*padding:                15px 60px; */
+    background:             #fff4e9;
+    z-index:                501;
 }
