@@ -121,33 +121,50 @@ class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller
         sort($historyIds);
         
         
-        $scipt = array();
+        $sqlScript   = array();
         
-        $script[] = '$installer = $this;';
-        $script[] = '$installer->startSetup();';
-        $script[] = '';
-
-        $placeholder = '$installer->setConfigData(\'%s\', \'%s\', \'%s\', %s);';
+        $phpScript   = array();
+        $phpScript[] = '<?php';
+        $phpScript[] = '$installer = $this;';
+        $phpScript[] = '$installer->startSetup();';
+        $phpScript[] = '';
+        
+        $sqlPlaceholder = 'REPLACE INTO core_config_data (scope, scope_id, path, value) values (\'%s\', %d, \'%s\', \'%s\');';
+        $phpPlaceholder = '$installer->setConfigData(\'%s\', \'%s\', \'%s\', %s);';
+        
         foreach ($historyIds as $historyId) {
             $history = Mage::getModel('configr/history')->load($historyId);
-            $script[] = '// Change #' . $history->getId() . ' (' . Mage::helper('core')->formatDate($history->getCreatedAt(), 'medium', true) . ')';
-            $script[] = vsprintf($placeholder, array(
+            
+            // SQL
+            $sqlScript[] = '-- Change #' . $history->getId() . ' (' . Mage::helper('core')->formatDate($history->getCreatedAt(), 'medium', true) . ')';
+            $sqlScript[] = vsprintf($sqlPlaceholder, array(
+                $history->getScope(),
+                (int)$history->getScopeId(),
                 $history->getPath(),
-                $history->getValue(),
+                str_replace("'", "''", $history->getValue())
+            ));
+            $sqlScript[] = '';
+            
+            // PHP
+            $phpScript[] = '// Change #' . $history->getId() . ' (' . Mage::helper('core')->formatDate($history->getCreatedAt(), 'medium', true) . ')';
+            $phpScript[] = vsprintf($phpPlaceholder, array(
+                $history->getPath(),
+                str_replace("'", "\'\'", $history->getValue()),
                 $history->getScope(),
                 (int)$history->getScopeId()
             ));
-            $script[] = '';
+            $phpScript[] = '';
         }
         
-        $script[] = '';
-        $script[] = '$installer->endSetup();';
+        $phpScript[] = '';
+        $phpScript[] = '$installer->endSetup();';
         
         $this->loadLayout()
             ->_addContent(
                 $this->getLayout()->createBlock('adminhtml/template')
                     ->setTemplate('twoboysoneshop_configr/history/migration.phtml')
-                    ->assign('_script', $script)
+                    ->assign('_phpScript', $phpScript)
+                    ->assign('_sqlScript', $sqlScript)
             )
             ->renderLayout();
     }
