@@ -4,7 +4,6 @@ var configrController = new Class.create();
 
 configrController.prototype = {
     initialize: function(params) {
-        console.log(params);
         $$('tr[data-field]').each(function(item) {
             var key = item.readAttribute('data-field');
             item.observe('click', function(event) {
@@ -22,14 +21,21 @@ configrController.prototype = {
                         },
                         evalJS: true,
                         onSuccess: function(transport) {
-                            $('config-detail').update(transport.responseText).show();
+                            $('config-detail-dynamic-area').update(transport.responseText);
+                            $('config-detail').show();
                         },
                         onFailure: function(transport) {
-                            $('config-detail').update(transport.responseText).show();
+                            //$('config-detail').update(transport.responseText).show();
                         }                
                     });                
                 }
             });
+        });
+        
+        $$('#config-detail .close-button')[0].observe('click', function(event) {
+            $('config-detail').hide();
+            
+            event.preventDefault();
         });
 
         $('applyFilter').observe('click', function() {

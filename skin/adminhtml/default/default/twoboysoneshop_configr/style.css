@@ -31,14 +31,36 @@ td.store:hover span {
 }
 
 #config-detail {
-    position:               absolute;
+    position:               fixed;
     top:                    50%;
     left:                   50%;
-    width:                  300px;
-    margin-left:            -150px;
+    width:                  650px;
+    margin-left:            -325px;
     padding:                10px;
     border:                 2px solid #f1af73;
     /*padding:                15px 60px; */
     background:             #fff4e9;
     z-index:                501;
 }
+
+.close-button {
+    text-decoration:        none;
+    border:                 2px solid #f1af73;
+    -moz-border-radius:     20px;
+    -webkit-border-radius:  20px;
+    border-radius:          20px;
+    text-align:             center;
+    vertical-align:         middle;
+    margin:                 auto;
+    position:               absolute;
+    background-color:       white;
+    right:                  -13px;
+    top:                    -13px;
+    width:                  20px;
+    height:                 20px;
+    color:                  #f1af73;
+    font-size:              16px;
+    font-weight:            bold;
+    display:                block;
+}
+
