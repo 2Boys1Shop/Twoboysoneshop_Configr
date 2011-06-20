@@ -2,12 +2,34 @@
 
 var configrController = new Class.create();
 
+var getOriginalTarget = function (event) {
+    if (event.explicitOriginalTarget) { // Firefox
+        return event.explicitOriginalTarget;
+    }
+    if (event.originalTarget) { // Firefox
+        return event.originalTarget;
+    } else {
+        if (event.target) {     // Firefox, Opera, Google Chrome and Safari
+            return event.target;
+        } else if (event.srcElement.tagName) {  // Internet Explorer
+            return event.srcElement.tagName;
+        } else {
+            return false;
+        }
+    }
+}
+
 configrController.prototype = {
     initialize: function(params) {
         $$('tr[data-field]').each(function(item) {
             var key = item.readAttribute('data-field');
             item.observe('click', function(event) {
-                var eot = event.originalTarget;
+                console.log(event);
+                var eot = getOriginalTarget(event);
+                if (eot === false) {
+                    console.log('weird browser, something is fucked up');
+                    return;
+                }
                 if (eot.tagName == 'DIV') {
                     eot = eot.up();
                 }
