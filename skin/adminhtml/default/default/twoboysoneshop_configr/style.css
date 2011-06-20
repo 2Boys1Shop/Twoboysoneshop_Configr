@@ -32,7 +32,7 @@ td.store:hover span {
 
 #config-detail {
     position:               fixed;
-    top:                    50%;
+    top:                    50px;
     left:                   50%;
     width:                  650px;
     margin-left:            -325px;
