@@ -84,6 +84,14 @@
                     </logConfigDataChange>
                 </observers>
             </model_save_commit_after>
+            <controller_action_postdispatch_adminhtml_system_config_save>
+                <observers>
+                    <redirectToConfigOverview>
+                        <class>configr/observer</class>
+                        <method>redirectToConfigOverview</method>
+                    </redirectToConfigOverview>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_config_save>
         </events>
     </adminhtml>
 

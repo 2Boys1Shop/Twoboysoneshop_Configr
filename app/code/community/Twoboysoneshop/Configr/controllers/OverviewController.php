@@ -133,7 +133,11 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         // Website Block
         $this->getRequest()->setParam('website', $website->getCode());
         
-        $editBlock = $this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm();
+        $editBlock = $this->getLayout()->createBlock('configr/overview_edit')->initForm();
+        $editBlock->setTitle($this->__('Website'))
+                  ->setSection($section)
+                  ->setWebsite($website->getCode());
+        
         $form = $editBlock->getChild('form');
         $form = $form->getForm();
         $fieldsetCollection = $form->getElements();
@@ -158,7 +162,11 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         // Store Block
         $this->getRequest()->setParam('store', $store->getCode());
         
-        $editBlock = $this->getLayout()->createBlock('adminhtml/system_config_edit')->initForm();
+        $editBlock = $this->getLayout()->createBlock('configr/overview_edit')->initForm();
+        $editBlock->setTitle($this->__('StoreView'))
+                  ->setSection($section)
+                  ->setWebsite($website->getCode())
+                  ->setStore($store->getCode());
         $form = $editBlock->getChild('form');
         $form = $form->getForm();
         $fieldsetCollection = $form->getElements();
@@ -177,12 +185,21 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         }
         $body .= $editBlock->toHtml();
         
+        // JS
+        $body .= $this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/ups.phtml')->toHtml();
+        $body .= $this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/config/js.phtml')->toHtml();
+        $body .= $this->getLayout()->createBlock('adminhtml/template')->setTemplate('system/shipping/applicable_country.phtml')->toHtml();
+
+        
+        
         $this->getResponse()->setBody($body);
     }
 
     public function saveAction() 
     {
-        die(print_r($this->getRequest()->getPost(), 1));
+        $session = Mage::getSingleton('adminhtml/session');
+        $session->setRedirectToConfigOverview(true);
+
         $this->_forward('save', 'system_config', 'admin');
     }
 

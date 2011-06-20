@@ -26,4 +26,15 @@ class Twoboysoneshop_Configr_Model_Observer
             }
         }
     }
+    
+    public function redirectToConfigOverview($observer) 
+    {
+        $controller = $observer->getControllerAction();
+        
+        $session = Mage::getSingleton('adminhtml/session');
+        
+        if ($session->getRedirectToConfigOverview(true)) {
+            $controller->getResponse()->setRedirect(Mage::getUrl('configr/overview/index', array()));
+        }
+    }
 }

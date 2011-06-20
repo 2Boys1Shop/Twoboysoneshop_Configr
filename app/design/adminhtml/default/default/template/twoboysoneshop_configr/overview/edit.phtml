@@ -1,0 +1,18 @@
+<?php $_formId = 'edit_' . uniqid() . '_form'; ?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td>
+                <h3<?php if($this->getHeaderCss()): ?> class="<?php echo $this->getHeaderCss()?>"<?php endif; ?>><?php echo Mage::helper('adminhtml')->__($this->getTitle()) ?></h3>
+            </td>
+            <td class="form-buttons"><?php echo $this->getSaveButtonHtml() ?></td>
+         </tr>
+    </table>
+</div>
+<form action="<?php echo $this->getSaveUrl() ?>" method="post" id="<?php echo $_formId ?>" enctype="multipart/form-data">
+    <?php echo $this->getBlockHtml('formkey')?>
+    <?php echo $this->getChildHtml('form') ?>
+</form>
+<script type="text/javascript">
+    window.<?php echo $this->getFormVarName() ?> = new varienForm('<?php echo $_formId ?>');
+</script>
