@@ -24,7 +24,6 @@ configrController.prototype = {
         $$('tr[data-field]').each(function(item) {
             var key = item.readAttribute('data-field');
             item.observe('click', function(event) {
-                console.log(event);
                 var eot = getOriginalTarget(event);
                 if (eot === false) {
                     console.log('weird browser, something is fucked up');
