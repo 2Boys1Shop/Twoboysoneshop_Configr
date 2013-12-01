@@ -1,0 +1,19 @@
+{
+    "name": "twoboysoneshop/configr",
+    "type": "magento-module",
+    "description": "Magento extension to create an overview of all configuration values of all stores on one page to be able to compare how the different stores are configured",
+    "authors": [
+        {
+            "name": "Marc Jakubowski",
+            "email": "marc.jakubowski@internations.org"
+        },
+        {
+            "name": "Karsten Gohm",
+            "email": "kasn@mac.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "dev-master"
+    }
+}
