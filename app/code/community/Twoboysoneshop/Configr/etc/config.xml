@@ -46,13 +46,13 @@
 
     <admin>
         <routers>
-            <configr>
-                <use>admin</use>
+            <adminhtml>
                 <args>
-                    <module>Twoboysoneshop_Configr</module>
-                    <frontName>configr</frontName>
+                    <modules>
+                        <configr before="Mage_Adminhtml">Twoboysoneshop_Configr_Adminhtml</configr>
+                    </modules>
                 </args>
-            </configr>
+            </adminhtml>
         </routers>
     </admin>
 
