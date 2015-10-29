@@ -7,12 +7,12 @@
                     <children>
                         <overview>
                             <title>Overview</title>
-                            <action>configr/overview/index</action>
+                            <action>adminhtml/configr_overview/index</action>
                             <sort_order>10</sort_order>
                         </overview>
                         <history>
                             <title>History</title>
-                            <action>configr/history/index</action>
+                            <action>adminhtml/configr_history/index</action>
                             <sort_order>20</sort_order>
                         </history>
                     </children>

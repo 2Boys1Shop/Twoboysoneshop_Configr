@@ -34,7 +34,7 @@ class Twoboysoneshop_Configr_Model_Observer
         $session = Mage::getSingleton('adminhtml/session');
         
         if ($session->getRedirectToConfigOverview(true)) {
-            $controller->getResponse()->setRedirect(Mage::getUrl('configr/overview/index', array()));
+            $controller->getResponse()->setRedirect(Mage::getUrl('adminhtml/configr_overview/index', array()));
         }
     }
 }

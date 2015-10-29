@@ -49,7 +49,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <configr before="Mage_Adminhtml">Twoboysoneshop_Configr_Adminhtml</configr>
+                        <configr before="Mage_Adminhtml">Twoboysoneshop_Configr</configr>
                     </modules>
                 </args>
             </adminhtml>

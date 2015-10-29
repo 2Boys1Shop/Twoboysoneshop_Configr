@@ -1,6 +1,6 @@
 <?php
 
-class Twoboysoneshop_Configr_HistoryController extends Mage_Adminhtml_Controller_Action
+class Twoboysoneshop_Configr_Configr_HistoryController extends Mage_Adminhtml_Controller_Action
 {
 
     protected function _initAction()
