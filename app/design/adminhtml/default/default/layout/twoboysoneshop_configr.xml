@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
-    <configr_overview_index>
+    <adminhtml_configr_overview_index>
         <reference name="head">
             <action method="addJs"><file>twoboysoneshop_configr/controller.js</file></action>
             <action method="addCss"><name>twoboysoneshop_configr/style.css</name></action>
@@ -8,11 +8,11 @@
         <reference name="content">
             <block type="adminhtml/template" name="configr.overview.index" template="twoboysoneshop_configr/overview/index.phtml"></block>
         </reference>
-    </configr_overview_index>
+    </adminhtml_configr_overview_index>
 
-    <configr_history_index>
+    <adminhtml_configr_history_index>
         <reference name="content">
             <block type="adminhtml/template" name="configr.history.index" template="twoboysoneshop_configr/history/index.phtml"></block>
         </reference>
-    </configr_history_index>
+    </adminhtml_configr_history_index>
 </layout>

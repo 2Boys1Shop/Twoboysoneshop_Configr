@@ -1,5 +1,5 @@
 <?php
-class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controller_Action
+class Twoboysoneshop_Configr_Configr_OverviewController extends Mage_Adminhtml_Controller_Action
 {
     protected function _initAction()
     {
@@ -44,12 +44,20 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
             $websites[$websiteKey] = $website->getData();
         }
 
+        $comparedStores = array();
+        $comparedWebsites = array();
+
+        $comparedStores[0]['name'] = 'default';
+
         // Convert stores to arrays
+        $storeKeys = $this->getRequest()->getParam('stores') ? $this->getRequest()->getParam('stores') : array();
         foreach ($stores as $storeKey => $store) {
+            if (0 == $storeKey || in_array($store->getCode(), $storeKeys)) {
+                $comparedStores[$storeKey] = $store->getData();
+            }
             $stores[$storeKey] = $store->getData();
             $websites[$store['website_id']]['stores'][$storeKey] = $store->getData();
         }
-        $stores[0]['name'] = 'default';
 
         foreach ($tabs as &$tab) {
             if (empty($tab['sections'])) {
@@ -88,7 +96,7 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
                         $field['config_key'] = $configKey;
                         $field['stores'] = array();
 
-                        foreach ($stores as $storeId => $store) {
+                        foreach ($comparedStores as $storeId => $store) {
                             $field['stores'][$storeId] = Mage::getStoreConfig($configKey, $storeId);
                         }
                         
@@ -103,10 +111,11 @@ class Twoboysoneshop_Configr_OverviewController extends Mage_Adminhtml_Controlle
         $this->_initAction();
         $this->getLayout()->getBlock('configr.overview.index')
                           ->addData(array(
-                                     'tabs'     => $tabs,
-                                     'stores'   => $stores,
-                                     'websites' => $websites,
-                                    ));
+                              'tabs'            => $tabs,
+                              'stores'          => $stores,
+                              'compared_stores' => $comparedStores,
+                              'websites'        => $websites,
+                          ));
         $this->renderLayout();
     }
 
